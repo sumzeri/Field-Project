@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fertilizer Usage Optimizer | Smart Recommendations for Sustainable Farming</title>
+<meta name="description" content="AI-assisted fertilizer recommendations based on soil test values and crop type. Reduce waste, cut costs, grow more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+ --green-900:#0E3B1E;
+ --green-700:#166534;
+ --green-600:#1B7A3D;
+ --green-500:#2E9E52;
+ --green-400:#4CBB6E;
+ --green-200:#B7E8C6;
+ --blue-600:#0277BD;
+ --blue-500:#1C93D6;
+ --blue-300:#8AD4F2;
+ --yellow-500:#FDC530;
+ --yellow-600:#F2A20C;
+ --white:#FFFFFF;
+ --bg:#F6FBF7;
+ --bg-alt:#EEF7F0;
+ --surface:rgba(255,255,255,0.6);
+ --surface-solid:#FFFFFF;
+ --surface-strong:rgba(255,255,255,0.85);
+ --text-primary:#0D2418;
+ --text-secondary:#4E6357;
+ --text-muted:#7C8C82;
+ --border:rgba(14,59,30,0.12);
+ --border-strong:rgba(14,59,30,0.2);
+ --shadow-sm:0 6px 20px rgba(14,59,30,0.08);
+ --shadow-md:0 16px 40px rgba(14,59,30,0.12);
+ --shadow-lg:0 30px 70px rgba(14,59,30,0.18);
+ --glass-blur:blur(18px);
+ --grad-primary:linear-gradient(135deg,var(--green-700) 0%,var(--green-500) 45%,var(--blue-500) 100%);
+ --grad-warm:linear-gradient(135deg,var(--yellow-500),var(--yellow-600));
+ --grad-hero:radial-gradient(circle at 15% 20%, rgba(76,187,110,0.35), transparent 45%),
+ radial-gradient(circle at 85% 15%, rgba(28,147,214,0.30), transparent 40%),
+ linear-gradient(160deg,#0E3B1E 0%, #135130 45%, #0B4A63 100%);
+ --font-display:'Sora',sans-serif;
+ --font-body:'Inter',sans-serif;
+ --font-mono:'JetBrains Mono',monospace;
+ --radius-lg:28px;
+ --radius-md:18px;
+ --radius-sm:12px;
+ --transition:0.35s cubic-bezier(.22,.61,.36,1);
+}
+[data-theme="dark"]{
+ --bg:#081A11;
+ --bg-alt:#0B2116;
+ --surface:rgba(18,46,32,0.55);
+ --surface-solid:#0F2818;
+ --surface-strong:rgba(15,40,26,0.9);
+ --text-primary:#EAF6EE;
+ --text-secondary:#A9C7B4;
+ --text-muted:#6E8B7A;
+ --border:rgba(255,255,255,0.09);
+ --border-strong:rgba(255,255,255,0.16);
+ --shadow-sm:0 6px 20px rgba(0,0,0,0.35);
+ --shadow-md:0 16px 40px rgba(0,0,0,0.45);
+ --shadow-lg:0 30px 70px rgba(0,0,0,0.55);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+ font-family:var(--font-body);
+ background:var(--bg);
+ color:var(--text-primary);
+ overflow-x:hidden;
+ transition:background var(--transition), color var(--transition);
+ line-height:1.6;
+}
+img,svg{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;border:none;outline:none;background:none;}
+button{cursor:pointer;}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;line-height:1.15;letter-spacing:-0.01em;}
+::selection{background:var(--green-400);color:#fff;}
+@media (prefers-reduced-motion: reduce){
+ *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+ outline:3px solid var(--blue-500);
+ outline-offset:2px;
+ border-radius:6px;
+}
+.container{width:100%;max-width:1220px;margin:0 auto;padding:0 24px;}
+.section{padding:110px 0;position:relative;}
+.section-alt{background:var(--bg-alt);}
+.eyebrow{
+ display:inline-flex;align-items:center;gap:8px;
+ font-family:var(--font-mono);font-size:0.78rem;font-weight:600;
+ letter-spacing:0.14em;text-transform:uppercase;color:var(--green-600);
+ background:rgba(46,158,82,0.1);border:1px solid rgba(46,158,82,0.25);
+ padding:7px 16px;border-radius:100px;margin-bottom:18px;
+}
+[data-theme="dark"] .eyebrow{color:var(--green-200);}
+.section-header{max-width:660px;margin:0 auto 60px;text-align:center;}
+.section-header h2{font-size:clamp(1.9rem,3.6vw,2.7rem);margin-bottom:16px;}
+.section-header p{color:var(--text-secondary);font-size:1.05rem;}
+.section-header.left{margin-left:0;text-align:left;}
+.btn{
+ display:inline-flex;align-items:center;justify-content:center;gap:10px;
+ padding:16px 32px;border-radius:100px;font-weight:600;font-size:0.98rem;
+ cursor:pointer;transition:transform var(--transition), box-shadow var(--transition), background var(--transition);
+ white-space:nowrap;
+}
+.btn-primary{background:var(--grad-primary);color:#fff;box-shadow:0 12px 30px rgba(27,122,61,0.35);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(27,122,61,0.45);}
+.btn-ghost{background:rgba(255,255,255,0.12);color:#fff;border:1.5px solid rgba(255,255,255,0.5);backdrop-filter:var(--glass-blur);}
+.btn-ghost:hover{background:rgba(255,255,255,0.22);transform:translateY(-3px);}
+.btn-outline{background:transparent;color:var(--green-700);border:1.5px solid var(--border-strong);}
+.btn-outline:hover{background:var(--green-700);color:#fff;border-color:var(--green-700);transform:translateY(-2px);}
+.btn-block{width:100%;}
+.btn i{font-size:0.9em;}
+.glass{
+ background:var(--surface);
+ backdrop-filter:var(--glass-blur);
+ -webkit-backdrop-filter:var(--glass-blur);
+ border:1px solid var(--border);
+}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 0.8s ease, transform 0.8s cubic-bezier(.22,.61,.36,1);}
+.reveal.active{opacity:1;transform:translateY(0);}
+.reveal-delay-1.active{transition-delay:0.1s;}
+.reveal-delay-2.active{transition-delay:0.2s;}
+.reveal-delay-3.active{transition-delay:0.3s;}
+.reveal-delay-4.active{transition-delay:0.4s;}
+#loader{
+ position:fixed;inset:0;z-index:9999;
+ background:var(--grad-hero);
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+ transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+#loader.hidden{opacity:0;visibility:hidden;}
+.loader-mark{
+ width:64px;height:64px;position:relative;
+}
+.loader-mark::before,.loader-mark::after{
+ content:'';position:absolute;inset:0;border-radius:50%;
+ border:3px solid transparent;
+}
+.loader-mark::before{border-top-color:var(--green-400);border-right-color:var(--green-400);animation:spin 1s linear infinite;}
+.loader-mark::after{border-bottom-color:var(--yellow-500);inset:10px;animation:spin 0.8s linear infinite reverse;}
+.loader-text{font-family:var(--font-display);color:#fff;font-weight:600;letter-spacing:0.06em;font-size:0.95rem;opacity:0.9;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.navbar{
+ position:fixed;top:0;left:0;right:0;z-index:1000;
+ padding:20px 0;
+ transition:padding var(--transition), background var(--transition), box-shadow var(--transition);
+}
+.navbar.scrolled{
+ padding:12px 0;
+ background:var(--surface-strong);
+ backdrop-filter:var(--glass-blur);
+ -webkit-backdrop-filter:var(--glass-blur);
+ box-shadow:var(--shadow-sm);
+ border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.15rem;}
+.nav-logo .logo-badge{
+ width:38px;height:38px;border-radius:11px;
+ background:var(--grad-primary);
+ display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.05rem;
+ box-shadow:0 8px 18px rgba(27,122,61,0.4);
+}
+.navbar:not(.scrolled) .nav-logo{color:#fff;}
+.navbar.scrolled .nav-logo{color:var(--text-primary);}
+.nav-links{display:flex;align-items:center;gap:34px;}
+.nav-links a{
+ font-size:0.95rem;font-weight:500;position:relative;padding:4px 0;
+ transition:color var(--transition);
+}
+.navbar:not(.scrolled) .nav-links a{color:rgba(255,255,255,0.88);}
+.navbar.scrolled .nav-links a{color:var(--text-secondary);}
+.nav-links a::after{
+ content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;
+ background:var(--yellow-500);transition:width var(--transition);
+}
+.nav-links a:hover{color:var(--yellow-500);}
+.nav-links a:hover::after{width:100%;}
+.nav-actions{display:flex;align-items:center;gap:14px;}
+.theme-toggle{
+ width:42px;height:42px;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
+ transition:background var(--transition), transform var(--transition);
+}
+.navbar:not(.scrolled) .theme-toggle{color:#fff;background:rgba(255,255,255,0.14);}
+.navbar.scrolled .theme-toggle{color:var(--text-primary);background:var(--bg-alt);}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.08);}
+.theme-toggle .fa-sun{display:none;}
+[data-theme="dark"] .theme-toggle .fa-sun{display:block;}
+[data-theme="dark"] .theme-toggle .fa-moon{display:none;}
+.nav-cta{display:none;}
+@media(min-width:860px){.nav-cta{display:inline-flex;padding:12px 24px;font-size:0.88rem;}}
+.nav-toggle{
+ display:flex;flex-direction:column;justify-content:center;gap:5px;
+ width:42px;height:42px;
+}
+.nav-toggle span{
+ width:22px;height:2px;border-radius:2px;margin:0 auto;
+ transition:transform var(--transition), opacity var(--transition), background var(--transition);
+}
+.navbar:not(.scrolled) .nav-toggle span{background:#fff;}
+.navbar.scrolled .nav-toggle span{background:var(--text-primary);}
+.nav-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.active span:nth-child(2){opacity:0;}
+.nav-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-menu{
+ position:fixed;top:0;right:-100%;width:min(320px,80%);height:100vh;z-index:1100;
+ background:var(--surface-strong);backdrop-filter:var(--glass-blur);
+ box-shadow:var(--shadow-lg);
+ padding:100px 32px 40px;
+ display:flex;flex-direction:column;gap:26px;
+ transition:right 0.45s cubic-bezier(.22,.61,.36,1);
+}
+.mobile-menu.active{right:0;}
+.mobile-menu a{font-size:1.1rem;font-weight:600;color:var(--text-primary);}
+.mobile-overlay{
+ position:fixed;inset:0;background:rgba(8,26,17,0.5);z-index:1050;
+ opacity:0;visibility:hidden;transition:opacity var(--transition), visibility var(--transition);
+}
+.mobile-overlay.active{opacity:1;visibility:visible;}
+@media(min-width:860px){.nav-links{display:flex;}.nav-toggle{display:none;}}
+@media(max-width:859px){.nav-links{display:none;}}
+.hero{
+ min-height:100vh;position:relative;display:flex;align-items:center;
+ background:var(--grad-hero);
+ overflow:hidden;padding:140px 0 80px;
+}
+.hero::before{
+ content:'';position:absolute;inset:0;
+ background-image:radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+ background-size:26px 26px;opacity:0.5;pointer-events:none;
+}
+.hero-grid{
+ display:grid;grid-template-columns:1.05fr 0.95fr;gap:50px;align-items:center;
+ position:relative;z-index:2;
+}
+.hero-content .eyebrow{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);color:#EAF9EE;}
+.hero-content h1{
+ font-size:clamp(2.4rem,5vw,3.6rem);color:#fff;margin-bottom:20px;
+}
+.hero-content h1 .accent{
+ background:linear-gradient(90deg,var(--yellow-500),var(--green-300,#8FE0A6));
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-content p{color:rgba(255,255,255,0.82);font-size:1.12rem;max-width:520px;margin-bottom:36px;}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:44px;}
+.hero-trust{display:flex;gap:28px;flex-wrap:wrap;}
+.hero-trust div{color:#fff;}
+.hero-trust strong{display:block;font-family:var(--font-display);font-size:1.4rem;}
+.hero-trust span{font-size:0.82rem;color:rgba(255,255,255,0.7);}
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center;}
+.hero-orb{
+ position:absolute;width:420px;height:420px;border-radius:50%;
+ background:radial-gradient(circle,rgba(76,187,110,0.35),transparent 70%);
+ filter:blur(10px);animation:pulse-orb 5s ease-in-out infinite;
+}
+@keyframes pulse-orb{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
+.hero-visual svg{width:100%;max-width:460px;position:relative;z-index:2;}
+.leaf-node{animation:node-pulse 2.6s ease-in-out infinite;}
+.leaf-node.n2{animation-delay:0.4s;}
+.leaf-node.n3{animation-delay:0.8s;}
+.leaf-node.n4{animation-delay:1.2s;}
+.leaf-node.n5{animation-delay:1.6s;}
+.leaf-node.n6{animation-delay:2s;}
+@keyframes node-pulse{0%,100%{opacity:0.55;r:4;}50%{opacity:1;r:6.5;}}
+.leaf-trace{stroke-dasharray:6 5;animation:dash-move 3.5s linear infinite;}
+@keyframes dash-move{to{stroke-dashoffset:-100;}}
+.leaf-particle{animation:float-particle 6s ease-in-out infinite;}
+.leaf-particle.p2{animation-delay:1.3s;}
+.leaf-particle.p3{animation-delay:2.6s;}
+@keyframes float-particle{0%,100%{transform:translateY(0);opacity:0.4;}50%{transform:translateY(-18px);opacity:1;}}
+.scroll-cue{
+ position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+ display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.7);
+ z-index:3;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;
+}
+.scroll-cue i{animation:bob 1.8s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+@media(max-width:940px){
+ .hero-grid{grid-template-columns:1fr;text-align:center;}
+ .hero-content p{margin-left:auto;margin-right:auto;}
+ .hero-buttons,.hero-trust{justify-content:center;}
+ .hero-visual{order:-1;margin-bottom:20px;}
+ .hero-visual svg{max-width:300px;}
+}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+.about-text .eyebrow{}
+.about-text h2{font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:20px;}
+.about-text > p{color:var(--text-secondary);margin-bottom:28px;font-size:1.02rem;}
+.about-points{display:flex;flex-direction:column;gap:18px;}
+.about-point{display:flex;gap:16px;align-items:flex-start;}
+.about-point .icon{
+ flex:none;width:42px;height:42px;border-radius:12px;
+ background:rgba(46,158,82,0.12);color:var(--green-600);
+ display:flex;align-items:center;justify-content:center;font-size:1rem;
+}
+[data-theme="dark"] .about-point .icon{background:rgba(76,187,110,0.18);color:var(--green-400);}
+.about-point h4{font-size:1rem;margin-bottom:4px;}
+.about-point p{color:var(--text-secondary);font-size:0.92rem;}
+.about-visual{position:relative;}
+.about-card{
+ border-radius:var(--radius-lg);padding:34px;
+ background:var(--surface-solid);box-shadow:var(--shadow-md);border:1px solid var(--border);
+ position:relative;overflow:hidden;
+}
+.about-card::before{
+ content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;
+ background:var(--grad-warm);opacity:0.18;
+}
+.about-card h3{font-size:1.3rem;margin-bottom:6px;}
+.about-card p{color:var(--text-secondary);font-size:0.9rem;margin-bottom:24px;}
+.about-mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.mini-stat{
+ padding:18px;border-radius:var(--radius-sm);background:var(--bg-alt);border:1px solid var(--border);
+}
+.mini-stat strong{font-family:var(--font-display);font-size:1.5rem;color:var(--green-600);display:block;}
+[data-theme="dark"] .mini-stat strong{color:var(--green-400);}
+.mini-stat span{font-size:0.8rem;color:var(--text-secondary);}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:44px;}}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.feature-card{
+ padding:32px 26px;border-radius:var(--radius-md);
+ background:var(--surface-solid);border:1px solid var(--border);box-shadow:var(--shadow-sm);
+ transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+ position:relative;overflow:hidden;
+}
+.feature-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:var(--green-400);}
+.feature-card .ficon{
+ width:56px;height:56px;border-radius:16px;margin-bottom:20px;
+ display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;
+ background:var(--grad-primary);
+ box-shadow:0 10px 24px rgba(27,122,61,0.3);
+}
+.feature-card:nth-child(4n+2) .ficon{background:linear-gradient(135deg,var(--blue-600),var(--blue-300));box-shadow:0 10px 24px rgba(2,119,189,0.3);}
+.feature-card:nth-child(4n+3) .ficon{background:var(--grad-warm);box-shadow:0 10px 24px rgba(242,162,12,0.3);}
+.feature-card h3{font-size:1.06rem;margin-bottom:10px;}
+.feature-card p{color:var(--text-secondary);font-size:0.9rem;}
+@media(max-width:1080px){.features-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.features-grid{grid-template-columns:1fr;}}
+.timeline{position:relative;max-width:820px;margin:0 auto;}
+.timeline::before{
+ content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;
+ background:linear-gradient(var(--green-500),var(--blue-500));transform:translateX(-50%);
+}
+.timeline-item{
+ display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;gap:0;margin-bottom:56px;
+}
+.timeline-item:last-child{margin-bottom:0;}
+.timeline-card{
+ padding:24px 26px;border-radius:var(--radius-md);
+ background:var(--surface-solid);border:1px solid var(--border);box-shadow:var(--shadow-sm);
+ transition:transform var(--transition), box-shadow var(--transition);
+}
+.timeline-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+.timeline-card h4{font-size:1.02rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.timeline-card p{font-size:0.88rem;color:var(--text-secondary);}
+.timeline-num{
+ width:52px;height:52px;border-radius:50%;background:var(--grad-primary);color:#fff;
+ display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;
+ margin:0 auto;box-shadow:0 8px 20px rgba(27,122,61,0.35);position:relative;z-index:2;
+ border:4px solid var(--bg);
+}
+.timeline-item:nth-child(odd) .timeline-card{grid-column:1;text-align:right;}
+.timeline-item:nth-child(odd) .spacer{grid-column:3;}
+.timeline-item:nth-child(even) .timeline-card{grid-column:3;}
+.timeline-item:nth-child(even) .spacer{grid-column:1;}
+.timeline-item:nth-child(odd) .timeline-card h4{justify-content:flex-end;}
+@media(max-width:720px){
+ .timeline::before{left:26px;}
+ .timeline-item{grid-template-columns:60px 1fr;gap:18px;}
+ .timeline-num{margin:0;width:44px;height:44px;}
+ .timeline-item:nth-child(odd) .timeline-card,.timeline-item:nth-child(even) .timeline-card{grid-column:2;text-align:left;}
+ .timeline-item:nth-child(odd) .timeline-card h4{justify-content:flex-start;}
+ .spacer{display:none;}
+}
+.calc-panel{
+ display:grid;grid-template-columns:1fr 1fr;
+ border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border);
+}
+.calc-form{
+ background:var(--surface-solid);padding:48px 44px;
+}
+.calc-form h3{font-size:1.3rem;margin-bottom:6px;}
+.calc-form > p{color:var(--text-secondary);font-size:0.9rem;margin-bottom:30px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:flex;justify-content:space-between;font-size:0.85rem;font-weight:600;margin-bottom:8px;color:var(--text-secondary);}
+.form-group label .val{font-family:var(--font-mono);color:var(--green-600);}
+[data-theme="dark"] .form-group label .val{color:var(--green-400);}
+.form-group select,.form-group input[type="number"],.form-group input[type="text"],.form-group input[type="email"],.form-group input[type="tel"],.form-group textarea{
+ width:100%;padding:13px 16px;border-radius:var(--radius-sm);
+ border:1.5px solid var(--border-strong);background:var(--bg-alt);color:var(--text-primary);
+ transition:border-color var(--transition), box-shadow var(--transition);
+}
+.form-group select:focus,.form-group input:focus,.form-group textarea:focus{
+ border-color:var(--green-500);box-shadow:0 0 0 4px rgba(46,158,82,0.15);
+}
+.form-group input[type="range"]{width:100%;accent-color:var(--green-600);}
+.calc-form .btn{margin-top:8px;}
+.calc-output{
+ background:var(--grad-hero);color:#fff;padding:48px 44px;position:relative;overflow:hidden;
+ display:flex;flex-direction:column;
+}
+.calc-output::before{
+ content:'';position:absolute;inset:0;
+ background-image:radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);background-size:22px 22px;
+}
+.calc-output-inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;}
+.calc-status{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-200);margin-bottom:24px;}
+.calc-status .dot{width:8px;height:8px;border-radius:50%;background:var(--green-400);box-shadow:0 0 0 0 rgba(76,187,110,0.6);animation:dot-ping 2s infinite;}
+@keyframes dot-ping{0%{box-shadow:0 0 0 0 rgba(76,187,110,0.6);}70%{box-shadow:0 0 0 10px rgba(76,187,110,0);}100%{box-shadow:0 0 0 0 rgba(76,187,110,0);}}
+.calc-placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;color:rgba(255,255,255,0.65);}
+.calc-placeholder i{font-size:2.6rem;color:rgba(255,255,255,0.35);}
+.calc-placeholder p{max-width:280px;font-size:0.92rem;}
+.calc-result{display:none;flex:1;flex-direction:column;gap:22px;}
+.calc-result.active{display:flex;animation:result-in 0.6s ease;}
+@keyframes result-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.result-hero{
+ padding:22px;border-radius:var(--radius-md);
+ background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);backdrop-filter:var(--glass-blur);
+}
+.result-hero span{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);}
+.result-hero h4{font-size:1.5rem;margin-top:6px;color:var(--yellow-500);}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.result-box{padding:16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);}
+.result-box span{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:rgba(255,255,255,0.6);}
+.result-box strong{display:block;font-family:var(--font-mono);font-size:1.15rem;margin-top:4px;}
+.health-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-size:0.78rem;font-weight:600;margin-top:4px;}
+.health-excellent{background:rgba(76,187,110,0.25);color:#B7E8C6;}
+.health-good{background:rgba(76,187,110,0.2);color:#D7F2DD;}
+.health-fair{background:rgba(253,197,48,0.25);color:#FDE7A8;}
+.health-poor{background:rgba(220,80,80,0.25);color:#F3B7B7;}
+.result-suggestions{font-size:0.85rem;color:rgba(255,255,255,0.85);}
+.result-suggestions h5{font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.55);margin-bottom:10px;}
+.result-suggestions ul{display:flex;flex-direction:column;gap:8px;}
+.result-suggestions li{display:flex;gap:8px;align-items:flex-start;}
+.result-suggestions li i{color:var(--yellow-500);margin-top:3px;font-size:0.8rem;}
+@media(max-width:940px){
+ .calc-panel{grid-template-columns:1fr;}
+ .form-row{grid-template-columns:1fr;}
+}
+.benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.benefit-card{
+ padding:30px;border-radius:var(--radius-md);text-align:left;
+ background:var(--surface-solid);border:1px solid var(--border);
+ display:flex;gap:18px;align-items:flex-start;
+ transition:transform var(--transition), box-shadow var(--transition);
+}
+.benefit-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+.benefit-card .bicon{
+ flex:none;width:50px;height:50px;border-radius:14px;
+ display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+ background:rgba(46,158,82,0.12);color:var(--green-600);
+}
+[data-theme="dark"] .benefit-card .bicon{background:rgba(76,187,110,0.18);color:var(--green-400);}
+.benefit-card h4{font-size:1rem;margin-bottom:6px;}
+.benefit-card p{font-size:0.88rem;color:var(--text-secondary);}
+@media(max-width:900px){.benefits-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.benefits-grid{grid-template-columns:1fr;}}
+.stats-section{
+ background:var(--grad-hero);border-radius:var(--radius-lg);
+ margin:0 24px;max-width:1220px;margin-inline:auto;padding:70px 40px;position:relative;overflow:hidden;
+}
+.stats-section::before{
+ content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);background-size:24px 24px;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;position:relative;z-index:2;}
+.stat-item{text-align:center;color:#fff;}
+.stat-item .num{
+ font-family:var(--font-display);font-weight:800;font-size:clamp(2.1rem,4vw,3rem);
+ background:linear-gradient(90deg,#fff,var(--green-200));-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.stat-item .label{color:rgba(255,255,255,0.75);font-size:0.9rem;margin-top:6px;}
+@media(max-width:800px){.stats-grid{grid-template-columns:1fr 1fr;row-gap:40px;}.stats-section{margin:0 16px;padding:50px 24px;}}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.testimonial-card{
+ padding:32px;border-radius:var(--radius-md);
+ background:var(--surface-solid);border:1px solid var(--border);box-shadow:var(--shadow-sm);
+ transition:transform var(--transition), box-shadow var(--transition);position:relative;
+}
+.testimonial-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+.testimonial-card .quote-icon{color:var(--yellow-500);font-size:1.4rem;margin-bottom:16px;opacity:0.8;}
+.testimonial-card p.quote{font-size:0.95rem;color:var(--text-secondary);margin-bottom:24px;}
+.testimonial-stars{color:var(--yellow-500);font-size:0.8rem;margin-bottom:14px;}
+.testimonial-person{display:flex;align-items:center;gap:14px;}
+.avatar-circle{
+ width:48px;height:48px;border-radius:50%;background:var(--grad-primary);color:#fff;
+ display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;flex:none;
+}
+.testimonial-person h5{font-size:0.94rem;}
+.testimonial-person span{font-size:0.8rem;color:var(--text-muted);}
+@media(max-width:900px){.testimonials-grid{grid-template-columns:1fr;}}
+.faq-list{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+.faq-item{
+ border-radius:var(--radius-md);background:var(--surface-solid);border:1px solid var(--border);overflow:hidden;
+ transition:border-color var(--transition);
+}
+.faq-item.active{border-color:var(--green-400);}
+.faq-question{
+ display:flex;align-items:center;justify-content:space-between;gap:20px;
+ padding:22px 26px;width:100%;text-align:left;font-weight:600;font-size:1rem;color:var(--text-primary);
+}
+.faq-question i{transition:transform var(--transition);color:var(--green-600);flex:none;}
+[data-theme="dark"] .faq-question i{color:var(--green-400);}
+.faq-item.active .faq-question i{transform:rotate(135deg);}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height 0.4s ease, padding var(--transition);padding:0 26px;}
+.faq-item.active .faq-answer{max-height:260px;padding:0 26px 24px;}
+.faq-answer p{color:var(--text-secondary);font-size:0.92rem;}
+.contact-grid{display:grid;grid-template-columns:1fr 0.8fr;gap:40px;}
+.contact-form{
+ padding:44px;border-radius:var(--radius-lg);background:var(--surface-solid);border:1px solid var(--border);box-shadow:var(--shadow-md);
+}
+.contact-info{
+ padding:44px 36px;border-radius:var(--radius-lg);background:var(--grad-hero);color:#fff;position:relative;overflow:hidden;
+}
+.contact-info::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);background-size:24px 24px;}
+.contact-info-inner{position:relative;z-index:2;}
+.contact-info h3{font-size:1.3rem;margin-bottom:12px;}
+.contact-info > .contact-info-inner > p{color:rgba(255,255,255,0.75);font-size:0.92rem;margin-bottom:32px;}
+.contact-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:22px;}
+.contact-item i{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;flex:none;}
+.contact-item h5{font-size:0.9rem;margin-bottom:2px;}
+.contact-item p{font-size:0.85rem;color:rgba(255,255,255,0.75);}
+.contact-social{display:flex;gap:12px;margin-top:30px;}
+.contact-social a{
+ width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.14);
+ display:flex;align-items:center;justify-content:center;transition:background var(--transition), transform var(--transition);
+}
+.contact-social a:hover{background:var(--yellow-500);color:var(--green-900);transform:translateY(-3px);}
+.form-success{
+ display:none;align-items:center;gap:10px;padding:14px 18px;border-radius:var(--radius-sm);
+ background:rgba(46,158,82,0.12);border:1px solid rgba(46,158,82,0.3);color:var(--green-600);
+ font-size:0.88rem;margin-top:16px;
+}
+[data-theme="dark"] .form-success{color:var(--green-400);}
+.form-success.active{display:flex;animation:result-in 0.4s ease;}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr;}.contact-form,.contact-info{padding:32px 26px;}}
+footer{background:#0B2216;color:rgba(255,255,255,0.75);padding:80px 0 0;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:44px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.footer-brand .nav-logo{color:#fff;margin-bottom:16px;}
+.footer-brand p{font-size:0.9rem;color:rgba(255,255,255,0.6);max-width:280px;margin-bottom:22px;}
+.footer-social{display:flex;gap:10px;}
+.footer-social a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;transition:background var(--transition), transform var(--transition);}
+.footer-social a:hover{background:var(--green-500);transform:translateY(-3px);}
+.footer-col h4{color:#fff;font-size:0.98rem;margin-bottom:20px;}
+.footer-col ul{display:flex;flex-direction:column;gap:12px;}
+.footer-col a{font-size:0.88rem;color:rgba(255,255,255,0.62);transition:color var(--transition), padding-left var(--transition);}
+.footer-col a:hover{color:var(--yellow-500);padding-left:4px;}
+.footer-contact li{display:flex;gap:10px;font-size:0.88rem;color:rgba(255,255,255,0.62);align-items:flex-start;margin-bottom:14px;}
+.footer-contact i{color:var(--green-400);margin-top:3px;}
+.footer-bottom{padding:26px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:0.82rem;color:rgba(255,255,255,0.5);}
+.footer-bottom a{color:rgba(255,255,255,0.5);}
+.footer-bottom a:hover{color:var(--yellow-500);}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.footer-grid{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;text-align:center;}}
+#backToTop{
+ position:fixed;bottom:28px;right:28px;z-index:900;
+ width:50px;height:50px;border-radius:50%;
+ background:var(--grad-primary);color:#fff;font-size:1.05rem;
+ display:flex;align-items:center;justify-content:center;
+ box-shadow:0 12px 28px rgba(27,122,61,0.4);
+ opacity:0;visibility:hidden;transform:translateY(16px);
+ transition:opacity var(--transition), visibility var(--transition), transform var(--transition);
+}
+#backToTop.visible{opacity:1;visibility:visible;transform:translateY(0);}
+#backToTop:hover{transform:translateY(-5px);}
+.floating-blob{position:absolute;border-radius:50%;filter:blur(50px);opacity:0.25;pointer-events:none;z-index:0;}
+</style>
+</head>
+<body>
+<div id="loader">
+ <div class="loader-mark"></div>
+ <div class="loader-text">CULTIVATING YOUR EXPERIENCE…</div>
+</div>
+<nav class="navbar" id="navbar">
+ <div class="container nav-inner">
+ <a href="#top" class="nav-logo">
+ <span class="logo-badge"><i class="fa-solid fa-seedling"></i></span>
+ Fertilizer Usage Optimizer
+ </a>
+ <ul class="nav-links">
+ <li><a href="#about">About</a></li>
+ <li><a href="#features">Features</a></li>
+ <li><a href="#how-it-works">How It Works</a></li>
+ <li><a href="#calculator">Calculator</a></li>
+ <li><a href="#testimonials">Testimonials</a></li>
+ <li><a href="#faq">FAQ</a></li>
+ <li><a href="#contact">Contact</a></li>
+ </ul>
+ <div class="nav-actions">
+ <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+ <i class="fa-solid fa-moon"></i>
+ <i class="fa-solid fa-sun"></i>
+ </button>
+ <a href="#calculator" class="btn btn-primary nav-cta">Get Recommendation</a>
+ <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+ <span></span><span></span><span></span>
+ </button>
+ </div>
+ </div>
+</nav>
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+ <a href="#about">About</a>
+ <a href="#features">Features</a>
+ <a href="#how-it-works">How It Works</a>
+ <a href="#calculator">Calculator</a>
+ <a href="#testimonials">Testimonials</a>
+ <a href="#faq">FAQ</a>
+ <a href="#contact">Contact</a>
+ <a href="#calculator" class="btn btn-primary btn-block">Get Recommendation</a>
+</div>
+<header class="hero" id="top">
+ <div class="container hero-grid">
+ <div class="hero-content reveal active">
+ <span class="eyebrow"><i class="fa-solid fa-microchip"></i> AI-Assisted Soil Intelligence</span>
+ <h1>Smart Fertilizer <span class="accent">Recommendations</span> for Sustainable Farming</h1>
+ <p>Enter your soil test values and crop type — get an instant, data-backed fertilizer plan that cuts waste, saves money, and grows healthier yields.</p>
+ <div class="hero-buttons">
+ <a href="#calculator" class="btn btn-primary"><i class="fa-solid fa-flask-vial"></i> Get Recommendation</a>
+ <a href="#about" class="btn btn-ghost"><i class="fa-solid fa-circle-info"></i> Learn More</a>
+ </div>
+ <div class="hero-trust">
+ <div><strong>5000+</strong><span>Farmers Trust Us</span></div>
+ <div><strong>98%</strong><span>Accuracy Rate</span></div>
+ <div><strong>85%</strong><span>Cost Reduction</span></div>
+ </div>
+ </div>
+ <div class="hero-visual">
+ <div class="hero-orb"></div>
+ <svg viewBox="0 0 420 460" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a leaf formed from circuit traces">
+ <defs>
+ <linearGradient id="leafGrad" x1="0" y1="0" x2="420" y2="460" gradientUnits="userSpaceOnUse">
+ <stop offset="0%" stop-color="#4CBB6E"/>
+ <stop offset="100%" stop-color="#1C93D6"/>
+ </linearGradient>
+ </defs>
+ <path d="M210 40C300 60 360 140 360 230C360 330 290 410 210 430C130 410 60 330 60 230C60 140 120 60 210 40Z"
+ stroke="url(#leafGrad)" stroke-width="2.5" fill="rgba(76,187,110,0.08)"/>
+ <path class="leaf-trace" d="M210 60V420" stroke="rgba(255,255,255,0.55)" stroke-width="1.6"/>
+ <path class="leaf-trace" d="M210 120 L150 150 L150 190" stroke="#8AD4F2" stroke-width="1.4"/>
+ <path class="leaf-trace" d="M210 160 L270 190 L270 230" stroke="#B7E8C6" stroke-width="1.4"/>
+ <path class="leaf-trace" d="M210 220 L140 250 L140 300" stroke="#8AD4F2" stroke-width="1.4"/>
+ <path class="leaf-trace" d="M210 260 L280 290 L280 330" stroke="#FDC530" stroke-width="1.4"/>
+ <path class="leaf-trace" d="M210 320 L160 350" stroke="#B7E8C6" stroke-width="1.4"/>
+ <path class="leaf-trace" d="M210 340 L260 365" stroke="#8AD4F2" stroke-width="1.4"/>
+ <circle class="leaf-node n1" cx="150" cy="190" r="5" fill="#4CBB6E"/>
+ <circle class="leaf-node n2" cx="270" cy="230" r="5" fill="#1C93D6"/>
+ <circle class="leaf-node n3" cx="140" cy="300" r="5" fill="#FDC530"/>
+ <circle class="leaf-node n4" cx="280" cy="330" r="5" fill="#4CBB6E"/>
+ <circle class="leaf-node n5" cx="160" cy="350" r="5" fill="#8AD4F2"/>
+ <circle class="leaf-node n6" cx="260" cy="365" r="5" fill="#FDC530"/>
+ <circle class="leaf-particle p1" cx="90" cy="120" r="3" fill="#FDC530"/>
+ <circle class="leaf-particle p2" cx="340" cy="150" r="3" fill="#4CBB6E"/>
+ <circle class="leaf-particle p3" cx="320" cy="380" r="3" fill="#8AD4F2"/>
+ </svg>
+ </div>
+ </div>
+ <div class="scroll-cue"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
+</header>
+<section class="section" id="about">
+ <div class="container about-grid">
+ <div class="about-text reveal">
+ <span class="eyebrow"><i class="fa-solid fa-leaf"></i> About the Platform</span>
+ <h2>What is the Fertilizer Usage Optimizer?</h2>
+ <p>Fertilizer Usage Optimizer is a smart web application that helps farmers determine exactly which fertilizer to use, and how much, based on real soil test values and the crop being grown. Instead of guesswork or generic dosing, farmers get a tailored recommendation in seconds.</p>
+ <div class="about-points">
+ <div class="about-point">
+ <span class="icon"><i class="fa-solid fa-users"></i></span>
+ <div><h4>Why farmers need it</h4><p>Over- or under-fertilizing is one of the biggest hidden costs in farming — this tool removes the guesswork.</p></div>
+ </div>
+ <div class="about-point">
+ <span class="icon"><i class="fa-solid fa-coins"></i></span>
+ <div><h4>Real cost advantages</h4><p>Precise dosing means fewer wasted bags of fertilizer and a lower input bill every season.</p></div>
+ </div>
+ <div class="about-point">
+ <span class="icon"><i class="fa-solid fa-earth-asia"></i></span>
+ <div><h4>Sustainable by design</h4><p>Reducing excess fertilizer protects groundwater, soil microbiology, and long-term land value.</p></div>
+ </div>
+ </div>
+ </div>
+ <div class="about-visual reveal reveal-delay-1">
+ <div class="about-card">
+ <h3>Built for real farms</h3>
+ <p>From soil test values to a ready-to-use plan — no agronomy degree required.</p>
+ <div class="about-mini-stats">
+ <div class="mini-stat"><strong>3 min</strong><span>To get a recommendation</span></div>
+ <div class="mini-stat"><strong>6</strong><span>Crops supported</span></div>
+ <div class="mini-stat"><strong>N-P-K</strong><span>Full nutrient analysis</span></div>
+ <div class="mini-stat"><strong>₹ Saved</strong><span>Every season</span></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+<section class="section section-alt" id="features">
+ <div class="container">
+ <div class="section-header reveal">
+ <span class="eyebrow"><i class="fa-solid fa-star"></i> Features</span>
+ <h2>Everything you need for smarter fertilization</h2>
+ <p>A complete toolkit that turns raw soil data into an actionable, cost-aware fertilizer plan.</p>
+ </div>
+ <div class="features-grid">
+ <div class="feature-card reveal"><span class="ficon"><i class="fa-solid fa-vial-circle-check"></i></span><h3>Soil Test Analysis</h3><p>Reads your N-P-K soil values and interprets them against crop-specific needs.</p></div>
+ <div class="feature-card reveal reveal-delay-1"><span class="ficon"><i class="fa-solid fa-wheat-awn"></i></span><h3>Crop Selection</h3><p>Choose from Wheat, Rice, Cotton, Maize, Soybean, or Sugarcane for tailored guidance.</p></div>
+ <div class="feature-card reveal reveal-delay-2"><span class="ficon"><i class="fa-solid fa-flask"></i></span><h3>Fertilizer Recommendation</h3><p>Instantly suggests Urea, DAP, MOP, or a Balanced NPK blend based on deficiencies.</p></div>
+ <div class="feature-card reveal reveal-delay-3"><span class="ficon"><i class="fa-solid fa-chart-simple"></i></span><h3>NPK Analysis</h3><p>Visual breakdown of Nitrogen, Phosphorus, and Potassium levels in your soil.</p></div>
+ <div class="feature-card reveal"><span class="ficon"><i class="fa-solid fa-weight-scale"></i></span><h3>Quantity Calculator</h3><p>Converts recommendations into exact kilograms based on your field size.</p></div>
+ <div class="feature-card reveal reveal-delay-1"><span class="ficon"><i class="fa-solid fa-indian-rupee-sign"></i></span><h3>Cost Estimation</h3><p>See the estimated cost of your fertilizer plan before you buy a single bag.</p></div>
+ <div class="feature-card reveal reveal-delay-2"><span class="ficon"><i class="fa-solid fa-recycle"></i></span><h3>Sustainable Farming</h3><p>Minimizes fertilizer runoff and protects soil health for future seasons.</p></div>
+ <div class="feature-card reveal reveal-delay-3"><span class="ficon"><i class="fa-solid fa-file-lines"></i></span><h3>Report Generation</h3><p>Get a clear, shareable summary of your soil health and recommended plan.</p></div>
+ </div>
+ </div>
+</section>
+<section class="section" id="how-it-works">
+ <div class="container">
+ <div class="section-header reveal">
+ <span class="eyebrow"><i class="fa-solid fa-diagram-project"></i> Process</span>
+ <h2>How it works</h2>
+ <p>Five simple steps between your soil test and a healthier harvest.</p>
+ </div>
+ <div class="timeline">
+ <div class="timeline-item reveal">
+ <div class="timeline-card"><h4><i class="fa-solid fa-wheat-awn"></i> Select Crop</h4><p>Choose the crop you're growing from the supported list.</p></div>
+ <div class="timeline-num">1</div>
+ <div class="spacer"></div>
+ </div>
+ <div class="timeline-item reveal">
+ <div class="spacer"></div>
+ <div class="timeline-num">2</div>
+ <div class="timeline-card"><h4><i class="fa-solid fa-vial"></i> Enter Soil Values</h4><p>Input your Nitrogen, Phosphorus, and Potassium test readings.</p></div>
+ </div>
+ <div class="timeline-item reveal">
+ <div class="timeline-card"><h4><i class="fa-solid fa-magnifying-glass-chart"></i> Analyze Soil</h4><p>Our logic compares your values against optimal crop thresholds.</p></div>
+ <div class="timeline-num">3</div>
+ <div class="spacer"></div>
+ </div>
+ <div class="timeline-item reveal">
+ <div class="spacer"></div>
+ <div class="timeline-num">4</div>
+ <div class="timeline-card"><h4><i class="fa-solid fa-flask-vial"></i> Generate Recommendation</h4><p>Get the exact fertilizer, quantity, and estimated cost for your field.</p></div>
+ </div>
+ <div class="timeline-item reveal">
+ <div class="timeline-card"><h4><i class="fa-solid fa-arrow-trend-up"></i> Improve Yield</h4><p>Apply the plan with confidence and track healthier harvests season after season.</p></div>
+ <div class="timeline-num">5</div>
+ <div class="spacer"></div>
+ </div>
+ </div>
+ </div>
+</section>
+<section class="section section-alt" id="calculator">
+ <div class="container">
+ <div class="section-header reveal">
+ <span class="eyebrow"><i class="fa-solid fa-calculator"></i> Try It Now</span>
+ <h2>Fertilizer Recommendation Calculator</h2>
+ <p>Enter your soil test values below to generate an instant, tailored recommendation.</p>
+ </div>
+ <div class="calc-panel reveal">
+ <div class="calc-form">
+ <h3>Soil &amp; Crop Details</h3>
+ <p>All fields are required for an accurate recommendation.</p>
+ <div class="form-group">
+ <label for="cropType">Crop Type</label>
+ <select id="cropType">
+ <option value="Wheat">Wheat</option>
+ <option value="Rice">Rice</option>
+ <option value="Cotton">Cotton</option>
+ <option value="Maize">Maize</option>
+ <option value="Soybean">Soybean</option>
+ <option value="Sugarcane">Sugarcane</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label for="nitrogen">Nitrogen (N) — kg/ha <span class="val" id="nVal">40</span></label>
+ <input type="range" id="nitrogen" min="0" max="120" value="40">
+ </div>
+ <div class="form-group">
+ <label for="phosphorus">Phosphorus (P) — kg/ha <span class="val" id="pVal">30</span></label>
+ <input type="range" id="phosphorus" min="0" max="100" value="30">
+ </div>
+ <div class="form-group">
+ <label for="potassium">Potassium (K) — kg/ha <span class="val" id="kVal">25</span></label>
+ <input type="range" id="potassium" min="0" max="100" value="25">
+ </div>
+ <div class="form-group">
+ <label for="fieldSize">Field Size (Acres)</label>
+ <input type="number" id="fieldSize" min="0.1" step="0.1" value="1" placeholder="e.g. 2.5">
+ </div>
+ <button class="btn btn-primary btn-block" id="generateBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Recommendation</button>
+ </div>
+ <div class="calc-output">
+ <div class="calc-output-inner">
+ <div class="calc-status"><span class="dot"></span> AI Recommendation Engine</div>
+ <div class="calc-placeholder" id="calcPlaceholder">
+ <i class="fa-solid fa-seedling"></i>
+ <p>Fill in your soil values and click "Generate Recommendation" to see your personalized fertilizer plan here.</p>
+ </div>
+ <div class="calc-result" id="calcResult">
+ <div class="result-hero">
+ <span>Recommended Fertilizer</span>
+ <h4 id="resFertilizer">—</h4>
+ </div>
+ <div class="result-grid">
+ <div class="result-box"><span>Quantity Needed</span><strong id="resQuantity">—</strong></div>
+ <div class="result-box"><span>Estimated Cost</span><strong id="resCost">—</strong></div>
+ </div>
+ <div class="result-box">
+ <span>Soil Health</span>
+ <div id="resHealth"></div>
+ </div>
+ <div class="result-suggestions">
+ <h5>Suggestions</h5>
+ <ul id="resSuggestions"></ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+<section class="section" id="benefits">
+ <div class="container">
+ <div class="section-header reveal">
+ <span class="eyebrow"><i class="fa-solid fa-award"></i> Benefits</span>
+ <h2>Why farmers switch to smart fertilization</h2>
+ <p>Small changes in how you fertilize compound into big results over a season.</p>
+ </div>
+ <div class="benefits-grid">
+ <div class="benefit-card reveal"><span class="bicon"><i class="fa-solid fa-arrow-trend-up"></i></span><div><h4>Increase Yield</h4><p>Right nutrients at the right time mean stronger, more productive crops.</p></div></div>
+ <div class="benefit-card reveal reveal-delay-1"><span class="bicon"><i class="fa-solid fa-droplet-slash"></i></span><div><h4>Reduce Fertilizer Waste</h4><p>Apply only what your soil actually needs — nothing more.</p></div></div>
+ <div class="benefit-card reveal reveal-delay-2"><span class="bicon"><i class="fa-solid fa-sack-dollar"></i></span><div><h4>Save Money</h4><p>Lower input costs season after season with precise dosing.</p></div></div>
+ <div class="benefit-card reveal"><span class="bicon"><i class="fa-solid fa-leaf"></i></span><div><h4>Eco-Friendly</h4><p>Less runoff means cleaner water and healthier ecosystems nearby.</p></div></div>
+ <div class="benefit-card reveal reveal-delay-1"><span class="bicon"><i class="fa-solid fa-hand-holding-heart"></i></span><div><h4>Healthy Soil</h4><p>Balanced nutrition keeps your soil productive for years to come.</p></div></div>
+ <div class="benefit-card reveal reveal-delay-2"><span class="bicon"><i class="fa-solid fa-microchip"></i></span><div><h4>Smart Farming</h4><p>Bring data-driven decisions to a traditionally guesswork-heavy task.</p></div></div>
+ </div>
+ </div>
+</section>
+<section class="section" id="stats-wrap">
+ <div class="stats-section reveal">
+ <div class="stats-grid">
+ <div class="stat-item"><div class="num" data-target="5000" data-suffix="+">0</div><div class="label">Farmers</div></div>
+ <div class="stat-item"><div class="num" data-target="25000" data-suffix="+">0</div><div class="label">Recommendations</div></div>
+ <div class="stat-item"><div class="num" data-target="98" data-suffix="%">0</div><div class="label">Accuracy</div></div>
+ <div class="stat-item"><div class="num" data-target="85" data-suffix="%">0</div><div class="label">Cost Reduction</div></div>
+ </div>
+ </div>
+</section>
+<section class="section" id="testimonials">
+ <div class="container">
+ <div class="section-header reveal">
+ <span class="eyebrow"><i class="fa-solid fa-comment-dots"></i> Testimonials</span>
+ <h2>Trusted by farmers across the country</h2>
+ <p>Real results from real fields.</p>
+ </div>
+ <div class="testimonials-grid">
+ <div class="testimonial-card reveal">
+ <i class="fa-solid fa-quote-left quote-icon"></i>
+ <div class="testimonial-stars">★★★★★</div>
+ <p class="quote">I used to apply fertilizer by habit, not by need. This tool showed me I was overusing DAP for two seasons straight — my costs dropped noticeably.</p>
+ <div class="testimonial-person">
+ <div class="avatar-circle">RP</div>
+ <div><h5>Ramesh Patil</h5><span>Cotton Farmer, Maharashtra</span></div>
+ </div>
+ </div>
+ <div class="testimonial-card reveal reveal-delay-1">
+ <i class="fa-solid fa-quote-left quote-icon"></i>
+ <div class="testimonial-stars">★★★★★</div>
+ <p class="quote">The quantity calculator is what sold me — I finally know exactly how many bags to buy for my field size instead of rounding up "just in case."</p>
+ <div class="testimonial-person">
+ <div class="avatar-circle">SK</div>
+ <div><h5>Sunita Kumari</h5><span>Wheat &amp; Rice Grower, Punjab</span></div>
+ </div>
+ </div>
+ <div class="testimonial-card reveal reveal-delay-2">
+ <i class="fa-solid fa-quote-left quote-icon"></i>
+ <div class="testimonial-stars">★★★★★</div>
+ <p class="quote">My soil health rating went from "Fair" to "Good" in one season after following the suggestions. Simple tool, real impact on my sugarcane yield.</p>
+ <div class="testimonial-person">
+ <div class="avatar-circle">MJ</div>
+ <div><h5>Manoj Jadhav</h5><span>Sugarcane Farmer, Karnataka</span></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+<section class="section section-alt" id="faq">
+ <div class="container">
+ <div class="section-header reveal">
+ <span class="eyebrow"><i class="fa-solid fa-circle-question"></i> FAQ</span>
+ <h2>Frequently asked questions</h2>
+ <p>Everything you need to know before you get started.</p>
+ </div>
+ <div class="faq-list reveal">
+ <div class="faq-item active">
+ <button class="faq-question">Do I need lab-tested soil values to use this tool? <i class="fa-solid fa-plus"></i></button>
+ <div class="faq-answer"><p>A recent soil test gives the most accurate results, but you can also use estimated values from your local agriculture office to get a directional recommendation.</p></div>
+ </div>
+ <div class="faq-item">
+ <button class="faq-question">Which crops are currently supported? <i class="fa-solid fa-plus"></i></button>
+ <div class="faq-answer"><p>Wheat, Rice, Cotton, Maize, Soybean, and Sugarcane are supported today, with more crops planned based on farmer demand.</p></div>
+ </div>
+ <div class="faq-item">
+ <button class="faq-question">How is the fertilizer quantity calculated? <i class="fa-solid fa-plus"></i></button>
+ <div class="faq-answer"><p>We combine your soil deficiency levels with your field size in acres to calculate the number of kilograms needed for even, effective coverage.</p></div>
+ </div>
+ <div class="faq-item">
+ <button class="faq-question">Is the cost estimate accurate for my region? <i class="fa-solid fa-plus"></i></button>
+ <div class="faq-answer"><p>Costs are based on average market rates and are meant as a planning guide — always confirm current prices with your local supplier.</p></div>
+ </div>
+ <div class="faq-item">
+ <button class="faq-question">Is there a cost to use the Fertilizer Usage Optimizer? <i class="fa-solid fa-plus"></i></button>
+ <div class="faq-answer"><p>The core recommendation calculator is free to use for every farmer, with no sign-up required.</p></div>
+ </div>
+ </div>
+ </div>
+</section>
+<section class="section" id="contact">
+ <div class="container">
+ <div class="section-header reveal">
+ <span class="eyebrow"><i class="fa-solid fa-envelope"></i> Contact</span>
+ <h2>Get in touch</h2>
+ <p>Questions about your soil report or the platform? We're here to help.</p>
+ </div>
+ <div class="contact-grid">
+ <form class="contact-form reveal" id="contactForm">
+ <div class="form-row">
+ <div class="form-group"><label for="cName">Name</label><input type="text" id="cName" placeholder="Your full name" required></div>
+ <div class="form-group"><label for="cPhone">Phone</label><input type="tel" id="cPhone" placeholder="+91 98765 43210" required></div>
+ </div>
+ <div class="form-group"><label for="cEmail">Email</label><input type="email" id="cEmail" placeholder="you@example.com" required></div>
+ <div class="form-group">
+ <label for="cCrop">Crop</label>
+ <select id="cCrop">
+ <option value="Wheat">Wheat</option>
+ <option value="Rice">Rice</option>
+ <option value="Cotton">Cotton</option>
+ <option value="Maize">Maize</option>
+ <option value="Soybean">Soybean</option>
+ <option value="Sugarcane">Sugarcane</option>
+ <option value="Other">Other</option>
+ </select>
+ </div>
+ <div class="form-group"><label for="cMessage">Message</label><textarea id="cMessage" rows="4" placeholder="Tell us about your field or question..." required></textarea></div>
+ <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+ <div class="form-success" id="formSuccess"><i class="fa-solid fa-circle-check"></i> Thanks! Your message has been received — we'll get back to you shortly.</div>
+ </form>
+ <div class="contact-info reveal reveal-delay-1">
+ <div class="contact-info-inner">
+ <h3>Contact information</h3>
+ <p>Reach out directly, or drop by our regional support desks during business hours.</p>
+ <div class="contact-item"><i class="fa-solid fa-location-dot"></i><div><h5>Address</h5><p>Krishi Bhavan Road, Nagpur, Maharashtra, India</p></div></div>
+ <div class="contact-item"><i class="fa-solid fa-phone"></i><div><h5>Phone</h5><p>+91 712 555 0198</p></div></div>
+ <div class="contact-item"><i class="fa-solid fa-envelope"></i><div><h5>Email</h5><p>support@fertoptimizer.example</p></div></div>
+ <div class="contact-item"><i class="fa-solid fa-clock"></i><div><h5>Support Hours</h5><p>Mon – Sat, 9:00 AM – 6:00 PM IST</p></div></div>
+ <div class="contact-social">
+ <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+ <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+ <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+ <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+<footer>
+ <div class="container">
+ <div class="footer-grid">
+ <div class="footer-brand">
+ <a href="#top" class="nav-logo"><span class="logo-badge"><i class="fa-solid fa-seedling"></i></span>Fertilizer Usage Optimizer</a>
+ <p>Smart, data-backed fertilizer recommendations that help farmers grow more while spending and wasting less.</p>
+ <div class="footer-social">
+ <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+ <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+ <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+ <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+ </div>
+ </div>
+ <div class="footer-col">
+ <h4>Quick Links</h4>
+ <ul>
+ <li><a href="#about">About</a></li>
+ <li><a href="#features">Features</a></li>
+ <li><a href="#how-it-works">How It Works</a></li>
+ <li><a href="#calculator">Calculator</a></li>
+ <li><a href="#faq">FAQ</a></li>
+ </ul>
+ </div>
+ <div class="footer-col">
+ <h4>Services</h4>
+ <ul>
+ <li><a href="#calculator">Soil Analysis</a></li>
+ <li><a href="#calculator">Fertilizer Planning</a></li>
+ <li><a href="#calculator">Cost Estimation</a></li>
+ <li><a href="#calculator">Report Generation</a></li>
+ </ul>
+ </div>
+ <div class="footer-col">
+ <h4>Contact</h4>
+ <ul class="footer-contact">
+ <li><i class="fa-solid fa-location-dot"></i> Krishi Bhavan Road, Nagpur, India</li>
+ <li><i class="fa-solid fa-phone"></i> +91 712 555 0198</li>
+ <li><i class="fa-solid fa-envelope"></i> support@fertoptimizer.example</li>
+ </ul>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <span>© <span id="year"></span> Fertilizer Usage Optimizer. All rights reserved.</span>
+ <span>Made for farmers, powered by data.</span>
+ </div>
+ </div>
+</footer>
+<button id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+window.addEventListener('load', function () {
+ var loader = document.getElementById('loader');
+ setTimeout(function () { loader.classList.add('hidden'); }, 500);
+});
+var navbar = document.getElementById('navbar');
+var backToTop = document.getElementById('backToTop');
+function onScroll() {
+ var scrolled = window.scrollY > 40;
+ navbar.classList.toggle('scrolled', scrolled);
+ backToTop.classList.toggle('visible', window.scrollY > 500);
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+backToTop.addEventListener('click', function () {
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+var navToggle = document.getElementById('navToggle');
+var mobileMenu = document.getElementById('mobileMenu');
+var mobileOverlay = document.getElementById('mobileOverlay');
+function closeMobileMenu() {
+ navToggle.classList.remove('active');
+ mobileMenu.classList.remove('active');
+ mobileOverlay.classList.remove('active');
+}
+function toggleMobileMenu() {
+ navToggle.classList.toggle('active');
+ mobileMenu.classList.toggle('active');
+ mobileOverlay.classList.toggle('active');
+}
+navToggle.addEventListener('click', toggleMobileMenu);
+mobileOverlay.addEventListener('click', closeMobileMenu);
+mobileMenu.querySelectorAll('a').forEach(function (link) {
+ link.addEventListener('click', closeMobileMenu);
+});
+var themeToggle = document.getElementById('themeToggle');
+var htmlEl = document.documentElement;
+themeToggle.addEventListener('click', function () {
+ var isDark = htmlEl.getAttribute('data-theme') === 'dark';
+ htmlEl.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+ anchor.addEventListener('click', function (e) {
+ var targetId = this.getAttribute('href');
+ if (targetId.length < 2) return;
+ var target = document.querySelector(targetId);
+ if (!target) return;
+ e.preventDefault();
+ var offset = 76;
+ var top = target.getBoundingClientRect().top + window.scrollY - offset;
+ window.scrollTo({ top: top, behavior: 'smooth' });
+ });
+});
+var revealObserver = new IntersectionObserver(function (entries) {
+ entries.forEach(function (entry) {
+ if (entry.isIntersecting) {
+ entry.target.classList.add('active');
+ revealObserver.unobserve(entry.target);
+ }
+ });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(function (el) {
+ revealObserver.observe(el);
+});
+function animateCounter(el) {
+ var target = parseInt(el.getAttribute('data-target'), 10);
+ var suffix = el.getAttribute('data-suffix') || '';
+ var duration = 1800;
+ var startTime = null;
+ function step(timestamp) {
+ if (!startTime) startTime = timestamp;
+ var progress = Math.min((timestamp - startTime) / duration, 1);
+ var eased = 1 - Math.pow(1 - progress, 3);
+ var value = Math.floor(eased * target);
+ el.textContent = value.toLocaleString() + suffix;
+ if (progress < 1) {
+ requestAnimationFrame(step);
+ } else {
+ el.textContent = target.toLocaleString() + suffix;
+ }
+ }
+ requestAnimationFrame(step);
+}
+var statsObserver = new IntersectionObserver(function (entries) {
+ entries.forEach(function (entry) {
+ if (entry.isIntersecting) {
+ entry.target.querySelectorAll('.num').forEach(animateCounter);
+ statsObserver.unobserve(entry.target);
+ }
+ });
+}, { threshold: 0.3 });
+var statsSection = document.querySelector('.stats-section');
+if (statsSection) statsObserver.observe(statsSection);
+document.querySelectorAll('.faq-question').forEach(function (btn) {
+ btn.addEventListener('click', function () {
+ var item = btn.closest('.faq-item');
+ var wasActive = item.classList.contains('active');
+ document.querySelectorAll('.faq-item').forEach(function (i) { i.classList.remove('active'); });
+ if (!wasActive) item.classList.add('active');
+ });
+});
+var nitrogenInput = document.getElementById('nitrogen');
+var phosphorusInput = document.getElementById('phosphorus');
+var potassiumInput = document.getElementById('potassium');
+var nVal = document.getElementById('nVal');
+var pVal = document.getElementById('pVal');
+var kVal = document.getElementById('kVal');
+nitrogenInput.addEventListener('input', function () { nVal.textContent = this.value; });
+phosphorusInput.addEventListener('input', function () { pVal.textContent = this.value; });
+potassiumInput.addEventListener('input', function () { kVal.textContent = this.value; });
+var FERTILIZER_INFO = {
+ Urea: { ratePerAcre: 50, pricePerKg: 6.5, nutrient: 'Nitrogen' },
+ DAP: { ratePerAcre: 40, pricePerKg: 27, nutrient: 'Phosphorus' },
+ MOP: { ratePerAcre: 30, pricePerKg: 17, nutrient: 'Potassium' },
+ 'Balanced NPK': { ratePerAcre: 45, pricePerKg: 22, nutrient: 'N-P-K' }
+};
+document.getElementById('generateBtn').addEventListener('click', function () {
+ var crop = document.getElementById('cropType').value;
+ var n = parseFloat(nitrogenInput.value);
+ var p = parseFloat(phosphorusInput.value);
+ var k = parseFloat(potassiumInput.value);
+ var acres = parseFloat(document.getElementById('fieldSize').value);
+ if (!acres || acres <= 0) {
+ acres = 1;
+ document.getElementById('fieldSize').value = 1;
+ }
+ var deficiencies = [];
+ if (n < 40) deficiencies.push('Urea');
+ if (p < 30) deficiencies.push('DAP');
+ if (k < 25) deficiencies.push('MOP');
+ var chosenFertilizers = deficiencies.length ? deficiencies : ['Balanced NPK'];
+ var totalQuantity = 0;
+ var totalCost = 0;
+ chosenFertilizers.forEach(function (name) {
+ var info = FERTILIZER_INFO[name];
+ var qty = info.ratePerAcre * acres;
+ totalQuantity += qty;
+ totalCost += qty * info.pricePerKg;
+ });
+ var healthLevels = [
+ { label: 'Excellent', cls: 'health-excellent' },
+ { label: 'Good', cls: 'health-good' },
+ { label: 'Fair', cls: 'health-fair' },
+ { label: 'Needs Attention', cls: 'health-poor' }
+ ];
+ var health = healthLevels[Math.min(deficiencies.length, 3)];
+ var suggestions = [];
+ if (deficiencies.indexOf('Urea') !== -1) suggestions.push('Nitrogen is low for ' + crop + ' — split Urea into 2–3 doses across the growing season for better uptake.');
+ if (deficiencies.indexOf('DAP') !== -1) suggestions.push('Phosphorus is below target — apply DAP at sowing time so roots can access it early.');
+ if (deficiencies.indexOf('MOP') !== -1) suggestions.push('Potassium is low — MOP improves drought tolerance and grain quality for ' + crop + '.');
+ if (deficiencies.length === 0) suggestions.push('Your N-P-K levels are well balanced for ' + crop + ' — maintain with a standard balanced NPK feed.');
+ suggestions.push('Re-test your soil every season to keep recommendations accurate as nutrient levels shift.');
+ suggestions.push('Combine fertilizer application with organic compost to further improve long-term soil structure.');
+ document.getElementById('resFertilizer').textContent = chosenFertilizers.join(' + ');
+ document.getElementById('resQuantity').textContent = totalQuantity.toFixed(1) + ' kg (' + acres + ' acre' + (acres > 1 ? 's' : '') + ')';
+ document.getElementById('resCost').textContent = '₹' + totalCost.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+ var healthEl = document.getElementById('resHealth');
+ healthEl.innerHTML = '<span class="health-badge ' + health.cls + '"><i class="fa-solid fa-heart-pulse"></i> ' + health.label + '</span>';
+ var suggestionsEl = document.getElementById('resSuggestions');
+ suggestionsEl.innerHTML = '';
+ suggestions.forEach(function (s) {
+ var li = document.createElement('li');
+ li.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>' + s + '</span>';
+ suggestionsEl.appendChild(li);
+ });
+ document.getElementById('calcPlaceholder').style.display = 'none';
+ var resultEl = document.getElementById('calcResult');
+ resultEl.classList.remove('active');
+ void resultEl.offsetWidth;
+ resultEl.classList.add('active');
+});
+document.getElementById('contactForm').addEventListener('submit', function (e) {
+ e.preventDefault();
+ var successEl = document.getElementById('formSuccess');
+ successEl.classList.add('active');
+ this.reset();
+ setTimeout(function () { successEl.classList.remove('active'); }, 5000);
+});
+</script>
+</body>
+</html>
